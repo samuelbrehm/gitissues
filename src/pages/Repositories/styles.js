@@ -3,7 +3,7 @@ import { colors } from '~/styles';
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.lighter,
+    backgroundColor: colors.light,
     flex: 1,
   },
 });

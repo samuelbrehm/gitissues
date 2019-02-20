@@ -7,15 +7,28 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 
+  empty: {
+    color: colors.dark,
+    fontSize: 12,
+    textAlign: 'center',
+  },
+
+  error: {
+    color: colors.danger,
+    fontSize: 12,
+    fontWeight: 'bold',
+    marginTop: metrics.baseMargin,
+    textAlign: 'center',
+  },
+
   form: {
     borderBottomColor: colors.light,
     borderBottomWidth: 1,
     padding: metrics.basePadding,
   },
 
-  inputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+  formIcon: {
+    color: colors.dark,
   },
 
   formInput: {
@@ -28,30 +41,17 @@ const styles = StyleSheet.create({
     padding: metrics.basePadding / 2,
   },
 
-  formIcon: {
-    color: colors.dark,
-  },
-
-  error: {
-    color: colors.danger,
-    fontSize: 12,
-    fontWeight: 'bold',
-    marginTop: metrics.baseMargin,
-    textAlign: 'center',
-  },
-
-  loading: {
-    marginTop: metrics.baseMargin * 2,
-  },
-
-  empty: {
-    color: colors.dark,
-    fontSize: 12,
-    textAlign: 'center',
+  inputContainer: {
+    alignItems: 'center',
+    flexDirection: 'row',
   },
 
   listContainer: {
     padding: metrics.basePadding,
+  },
+
+  loading: {
+    marginTop: metrics.baseMargin * 2,
   },
 });
 

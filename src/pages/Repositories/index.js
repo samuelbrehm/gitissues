@@ -25,6 +25,12 @@ export default class Repositories extends Component {
     title: 'GitIssues',
   };
 
+  static propTypes = {
+    navigation: PropTypes.shape({
+      navigate: PropTypes.func,
+    }).isRequired,
+  };
+
   state = {
     repositoryInput: '',
     repositories: [],
@@ -43,7 +49,7 @@ export default class Repositories extends Component {
 
     const repositories = JSON.parse(await AsyncStorage.getItem('@GitIssues:repositories'));
 
-    this.setState({ repositories: repositories || [], loading: false, refreshing: false });
+    this.setState({ repositories: repositories || [], loadingList: false, refreshing: false });
   };
 
   renderListItem = ({ item }) => <RepositoryItem repository={item} />;
@@ -66,9 +72,7 @@ export default class Repositories extends Component {
   };
 
   addRepository = async () => {
-    const {
-      repositoryInput, repositories, loadingList, loadingButton, error,
-    } = this.state;
+    const { repositoryInput, repositories, loadingList } = this.state;
 
     if (loadingList) return;
 

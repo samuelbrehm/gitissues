@@ -39,6 +39,20 @@ const styles = StyleSheet.create({
     marginTop: metrics.baseMargin,
     textAlign: 'center',
   },
+
+  loading: {
+    marginTop: metrics.baseMargin * 2,
+  },
+
+  empty: {
+    color: colors.dark,
+    fontSize: 12,
+    textAlign: 'center',
+  },
+
+  listContainer: {
+    padding: metrics.basePadding,
+  },
 });
 
 export default styles;

@@ -8,6 +8,7 @@ import {
 import api from '~/services/api';
 
 import styles from './styles';
+import IssueItem from './IssueItem';
 
 export default class Issues extends Component {
   static propTypes = {

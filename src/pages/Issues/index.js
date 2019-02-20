@@ -9,6 +9,7 @@ import api from '~/services/api';
 
 import styles from './styles';
 import IssueItem from './IssueItem';
+import Filter from './Filter';
 
 export default class Issues extends Component {
   static propTypes = {
@@ -22,6 +23,7 @@ export default class Issues extends Component {
   });
 
   state = {
+    activeFilter: 'all',
     issues: [],
     loading: true,
     error: '',
@@ -36,9 +38,12 @@ export default class Issues extends Component {
     this.setState({ refreshing: true });
 
     const { navigation } = this.props;
+    const { activeFilter } = this.state;
 
     try {
-      const { data } = await api.get(`/repos/${navigation.getParam('full_name')}/issues`);
+      const { data } = await api.get(
+        `/repos/${navigation.getParam('full_name')}/issues?state=${activeFilter}`,
+      );
 
       this.setState({ issues: data });
     } catch (err) {
@@ -67,13 +72,30 @@ export default class Issues extends Component {
     );
   };
 
+  changeFilter = async (value) => {
+    this.setState({ activeFilter: value });
+
+    const { navigation } = this.props;
+
+    try {
+      const { data } = await api.get(
+        `/repos/${navigation.getParam('full_name')}/issues?state=${value}`,
+      );
+
+      this.setState({ issues: data });
+    } catch (err) {
+      this.setState({ error: 'Erro ao recuperar as Issues' });
+    }
+  };
+
   render() {
-    const { loading, error } = this.state;
+    const { loading, error, activeFilter } = this.state;
 
     return (
       <View style={styles.container}>
         <StatusBar barStyle="dark-content" />
         {!!error && <Text style={styles.error}>{error}</Text>}
+        <Filter activeFilter={activeFilter} changeFilter={this.changeFilter} />
         {loading ? <ActivityIndicator size="large" style={styles.loading} /> : this.renderList()}
       </View>
     );

@@ -1,10 +1,10 @@
-import { createAppContainer, createSwitchNavigator } from 'react-navigation';
+import { createAppContainer, createStackNavigator } from 'react-navigation';
 
 import Repositories from '~/pages/Repositories';
 import Issues from '~/pages/Issues';
 
 const Routes = createAppContainer(
-  createSwitchNavigator(
+  createStackNavigator(
     {
       Repositories,
       Issues,

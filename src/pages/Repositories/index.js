@@ -6,7 +6,7 @@ import {
   TextInput,
   TouchableOpacity,
   StatusBar,
-  Button,
+  FlatList,
   AsyncStorage,
   ActivityIndicator,
   Text,
@@ -15,6 +15,8 @@ import {
 import api from '~/services/api';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
+
+import RepositoryItem from './RepositoryItem';
 
 import styles from './styles';
 
@@ -30,6 +32,37 @@ export default class Repositories extends Component {
     loadingButton: false,
     error: '',
     refreshing: false,
+  };
+
+  componentDidMount() {
+    this.loadRepositories();
+  }
+
+  loadRepositories = async () => {
+    this.setState({ refreshing: true });
+
+    const repositories = JSON.parse(await AsyncStorage.getItem('@GitIssues:repositories'));
+
+    this.setState({ repositories: repositories || [], loading: false, refreshing: false });
+  };
+
+  renderListItem = ({ item }) => <RepositoryItem repository={item} />;
+
+  renderList = () => {
+    const { repositories, refreshing } = this.state;
+
+    return !repositories.length ? (
+      <Text style={styles.empty}>Nennum repositório adicionado</Text>
+    ) : (
+      <FlatList
+        data={repositories}
+        keyExtractor={item => String(item.id)}
+        renderItem={this.renderListItem}
+        onRefresh={this.loadRepositories}
+        refreshing={refreshing}
+        style={styles.listContainer}
+      />
+    );
   };
 
   addRepository = async () => {
@@ -63,7 +96,9 @@ export default class Repositories extends Component {
   };
 
   render() {
-    const { repositoryInput, loadingButton, error } = this.state;
+    const {
+      repositoryInput, loadingButton, error, loadingList,
+    } = this.state;
 
     return (
       <View style={styles.container}>
@@ -89,7 +124,11 @@ export default class Repositories extends Component {
           </View>
           {!!error && <Text style={styles.error}>{error}</Text>}
         </View>
-        {/* <Button title="Issues" onPress={() => this.props.navigation.navigate('Issues')} /> */}
+        {loadingList ? (
+          <ActivityIndicator size="large" style={styles.loading} />
+        ) : (
+          this.renderList()
+        )}
       </View>
     );
   }
